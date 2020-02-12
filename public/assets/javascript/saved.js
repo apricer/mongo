@@ -44,6 +44,26 @@ $(document).ready(function () {
         return panel;
     }
 
-    function renderEmpty()
+    function renderEmpty() {
+        var emptyAlert =
+            $(["<div class = 'alert alert-warning text-center'>",
+                "<h4>Uh oh. Looks like we don't have any saved articles.</h4>",
+                "<div>",
+                "<div class = 'panel panel-default'>",
+                "<div class = 'panel-heading text-center'>",
+                "<h3> Would You Like to Browse Available Articles?</h3>",
+                "<div>",
+                "<div class = 'panel-body text-center",
+                "<h4><a ref = '/'>Browse Articles</a></h4>",
+                "<div>",
+                "<div>"
+            ].join(""));
+        articleContainer.append(emptyAlert);
+    }
+
+    function renderNotesList(data) {
+        var notesToRender = [];
+        var currentNote;
+    }
 
 })
