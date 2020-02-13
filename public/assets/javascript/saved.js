@@ -20,7 +20,7 @@ $(document).ready(function () {
 
     function renderArticles(articles) {
         var articlePanels = [];
-        for (var i = 0, i < articles.length; i++) {
+        for (var i = 0; i < articles.length; i++) {
             articlePanels.push(createPanel(articles[i]));
         }
         articleContainer.append(articlePanels);
@@ -64,6 +64,57 @@ $(document).ready(function () {
     function renderNotesList(data) {
         var notesToRender = [];
         var currentNote;
+        if (!data.notes.length) {
+            currentNote = [
+                "<li class = 'list-group-item'>",
+                "No notes for this article yet.",
+                "</li>"
+            ].join("");
+            notesToRender.push(currentNote);
+        }
+        else {
+            for (var i = 0; i < data.notes.length; i++) {
+                currentNote = $([
+                    "<li class = 'list-group-item-note'>",
+                    data.notes[i].noteText,
+                    "<button class = 'btn btn-danger note-delete'>x</button>",
+                    "</li>"
+                ].join(""));
+                currentNote.children("button").data("_id", data.notes[i]._id);
+                notesToRender.push(currentNote);
+            }
+        }
+        $(".note-container").append(notesToRender);
+    }
+
+    function handleArticleDelete() {
+        var articleToDelete = $(this).parents("panel").data();
+        $.ajax({
+            method: "DELETE",
+            url: "/api/headlines/" + articleToDelete._id
+        }).then(function (data) {
+            if (data.ok) {
+                initPage();
+            }
+        });
+    }
+
+    function handleArticleNotes() {
+        var currentArticle = $(this).parents(".panel").data();
+        $.get("/api/notes/" + currentArticle._id).then(function (data) {
+            var modalText = [
+                "<div class= 'container-fluid text-center'>",
+                "<h4>Notes For Article: ",
+                currentArticle._id,
+                "</h4>",
+                "<hr />",
+                "<ul class = 'list-group note-container'>",
+                "</ul>",
+                "<textarea placeholder = 'New Note' rows = '4' cols = '60'></textarea>",
+                "<button class = 'btn btn-success save'>Save Note</button>",
+            ]
+        })
+
     }
 
 })
