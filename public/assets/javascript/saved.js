@@ -112,9 +112,28 @@ $(document).ready(function () {
                 "</ul>",
                 "<textarea placeholder = 'New Note' rows = '4' cols = '60'></textarea>",
                 "<button class = 'btn btn-success save'>Save Note</button>",
-            ]
-        })
+                "</div>"
+            ].join("");
+            bootbox.dialog({
+                message: modalText,
+                closeButton: true
+            });
+            var noteData = {
+                _id: currentArticle._id,
+                notes: data || []
+            };
+            $(".btn.save").data("article", noteData);
+            renderNotesList(noteData);
+        });
 
+    }
+
+    function handleNoteSave() {
+        var noteData;
+        var newNote = $("bootbox-body textarea").val().trim();
+        if (newNote) {
+            noteData = 
+        }
     }
 
 })
